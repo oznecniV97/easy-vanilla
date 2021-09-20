@@ -28,8 +28,7 @@ public class KeyInputHandler {
         	log.debug("Rilasciato holdActionButton, premuto {} ({})", KeyEvent.getKeyText(event.getKey()), event.getKey());
 			Minecraft.getInstance().options.pauseOnLostFocus = true;
 			Minecraft.getInstance().options.save();
-            KeyMapping.set(Minecraft.getInstance().options.keyUse.getKey(), true);
-//        	KeyBinding.setKeyBindState(Minecraft.getInstance().gameSettings.keyBindUseItem.getKey(), false);
+            KeyMapping.set(Minecraft.getInstance().options.keyUse.getKey(), false);
         	holdActionButtonPressed = false;
         } else
     	//caso pressione holdActionButton
@@ -38,7 +37,6 @@ public class KeyInputHandler {
         	Minecraft.getInstance().options.pauseOnLostFocus = false;
         	Minecraft.getInstance().options.save();
             KeyMapping.set(Minecraft.getInstance().options.keyUse.getKey(), true);
-//        	KeyBinding.setKeyBindState(Minecraft.getInstance().gameSettings.keyBindUseItem.getKey(), true);
         	holdActionButtonPressed = true;
         } else
         //caso pressione tasto pesca
