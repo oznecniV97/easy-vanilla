@@ -1,5 +1,7 @@
 package org.oznecniv97.easyvanilla.handler;
 
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,61 +16,80 @@ public class PlayerTickHandler {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-		//TODO: controllare se l'item si rompe, così da rimpiazzarlo, se presente
+        //TODO: controllare se l'item si rompe, così da rimpiazzarlo, se presente
 //		event.player.getInventory().
 
         // controlla lo stato della canna da pesca a ogni tick del player
-		final var hook = event.player.fishing;
-        if(hook!=null) {
-			checkBobberState(hook);
+        final var hook = event.player.fishing;
+        if (!stopCheck && hook != null) {
+            checkHookState(hook);
+        } else if(stopCheck && hook == null) {
+            log.info("stopcheck true after hooked");
+            stopCheck = false;
+            lastNibble = 0;
         }
     }
 
-//    private int waterLevel = -1;
+    private int lastNibble = 0;
+    private boolean stopCheck = false;
 
-	private void checkBobberState(FishingHook hook) {
-		try {
-			Field f = hook.getClass().getDeclaredField("currentState"); //FishingHook.FishHookState
-			f.setAccessible(true);
-			var currentState = f.get(hook).toString();
-			f = hook.getClass().getDeclaredField("biting"); //bool
-			f.setAccessible(true);
-			var biting = f.getBoolean(hook);
-			f = hook.getClass().getDeclaredField("life"); //int
-			f.setAccessible(true);
-			var life = f.getInt(hook);
-			f = hook.getClass().getDeclaredField("nibble"); //int
-			f.setAccessible(true);
-			var nibble = f.getInt(hook);
-			f = hook.getClass().getDeclaredField("timeUntilLured"); //int
-			f.setAccessible(true);
-			var timeUntilLured = f.getInt(hook);
-			f = hook.getClass().getDeclaredField("timeUntilHooked"); //int
-			f.setAccessible(true);
-			var timeUntilHooked = f.getInt(hook);
+    private void checkHookState(FishingHook hook) {
+        try {
+            var currentState = getStringField(hook, "currentState");
 
-			log.info("event.player.fishing.currentState: {}", currentState);
-			log.info("event.player.fishing.biting: {}", biting);
-			log.info("event.player.fishing.life: {}", life);
-			log.info("event.player.fishing.nibble: {}", nibble);
-			log.info("event.player.fishing.timeUntilLured: {}", timeUntilLured);
-			log.info("event.player.fishing.timeUntilHooked: {}", timeUntilHooked);
+            if (currentState.equals("BOBBING")) {
+                var biting = getBooleanField(hook, "biting"); //se il pesce sta mordendo l'amo
+                var nibble = getIntField(hook, "nibble"); //tempo prima che il pesce vada via
+                var timeUntilLured = getIntField(hook, "timeUntilLured"); //tempo fino al prossimo arrivo del pesce
+                var timeUntilHooked = getIntField(hook, "timeUntilHooked"); //tempo fino al morso del pesce
 
-//			if(bobberState.equals("BOBBING")) {
-//				int yBobber = bobber.getPosition().getY();
-//				if(waterLevel==-1) {
-//					//TODO calcolare meglio il livello dell'acqua, magari vedendo direttamente la posizione del blocco
-//					waterLevel = yBobber; //66
-//				}
-//				if(yBobber!=waterLevel) {
-//					log.info(bobberState+" at position.Y: " + bobber.getPosition().getY());
-//				}
-//			} else {
-//				waterLevel = -1;
-//			}
-		} catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-			log.error("Schiattata la reflection", e);
-		}
-	}
+                if (biting) {
+                    log.info("event.player.fishing.biting: true");
+                }
+                if (nibble != 0) {
+                    log.info("event.player.fishing.nibble: {}", nibble);
+                }
+                if (timeUntilLured != 0) {
+                    log.info("event.player.fishing.timeUntilLured: {}", timeUntilLured);
+                }
+                if (timeUntilHooked != 0) {
+                    log.info("event.player.fishing.timeUntilHooked: {}", timeUntilHooked);
+                }
+
+                if (biting && nibble != 0) {
+                    log.info("biting && nibble!=0");
+                    if (lastNibble == 0) {
+                        log.info("lastNibble==0");
+                        lastNibble = nibble;
+                    } else if (lastNibble != nibble) {
+                        log.info("lastNibble!=nibble");
+                        stopCheck = true;
+                        lastNibble = 0;
+                        KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
+                    }
+                }
+            }
+        } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+            log.error("Schiattata la reflection", e);
+        }
+    }
+
+    private String getStringField(Object obj, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        return getField(obj, fieldName).get(obj).toString();
+    }
+
+    private int getIntField(Object obj, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        return getField(obj, fieldName).getInt(obj);
+    }
+
+    private boolean getBooleanField(Object obj, String fieldName) throws NoSuchFieldException, IllegalAccessException {
+        return getField(obj, fieldName).getBoolean(obj);
+    }
+
+    private Field getField(Object obj, String fieldName) throws NoSuchFieldException {
+        final var field = obj.getClass().getDeclaredField(fieldName);
+        field.setAccessible(true);
+        return field;
+    }
 
 }
