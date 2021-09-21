@@ -5,15 +5,22 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 
+@SuppressWarnings("unused")
 public class ReflectionUtils {
 
+    private ReflectionUtils() {}
+
     private static final Logger log = LogManager.getLogger();
+
+    private static RuntimeException getRuntimeException(Exception e) {
+        return new RuntimeException("Schiattata la reflection", e);
+    }
 
     public static String getStringField(Object obj, String fieldName) {
         try {
             return getField(obj, fieldName).get(obj).toString();
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            log.error("Schiattata la reflection", e);
+            throw getRuntimeException(e);
         }
     }
 
@@ -21,7 +28,7 @@ public class ReflectionUtils {
         try {
             return getField(obj, fieldName).getInt(obj);
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            log.error("Schiattata la reflection", e);
+            throw getRuntimeException(e);
         }
     }
 
@@ -29,7 +36,7 @@ public class ReflectionUtils {
         try {
             return getField(obj, fieldName).getBoolean(obj);
         } catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
-            log.error("Schiattata la reflection", e);
+            throw getRuntimeException(e);
         }
     }
 

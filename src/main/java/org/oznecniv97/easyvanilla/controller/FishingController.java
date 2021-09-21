@@ -12,9 +12,9 @@ public class FishingController {
     private static final int MIN_BITING_COUNT = 4;
     private static final int MIN_STOP_COUNT = 20;
 
-    private static final Logger log = LogManager.getLogger();
-
     private static FishingController instance;
+
+    private boolean active = false;
 
     private int bitingCount = 0;
     private int stopCount = 0;
@@ -29,15 +29,30 @@ public class FishingController {
         return instance;
     }
 
+    /**
+     * method to start or stop fishing check
+     */
+    public void startOrStop() {
+        //start/stop
+        active = !active;
+        //if active, click key use to start fishing
+        if(active) {
+            KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
+        }
+    }
+
+    /**
+     * check fishing hook status for every player tick
+     * @param hook the player hook
+     */
     public void checkPlayerTick(final FishingHook hook) {
-        // controlla lo stato della canna da pesca a ogni tick del player
-        if (!stopCheck && hook != null) {
+        if(active) {
+            if (!stopCheck && hook != null) {
                 //procedo al controllo solo se lo stato è bobbing, quindi galleggiante
                 var currentState = ReflectionUtils.getStringField(hook, "currentState");
                 if (currentState.equals("BOBBING")) {
-
                     //controllo ricevo biting a true almeno MIN_BITING_COUNT volte
-                    var biting = ReflectionUtils.getBooleanField(hook, "biting"); //se il pesce sta mordendo l'amo
+                    var biting = ReflectionUtils.getBooleanField(hook, "biting");
                     if(biting && ++bitingCount > MIN_BITING_COUNT) {
                         //click tasto destro per pescare il pesce
                         KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
@@ -47,13 +62,17 @@ public class FishingController {
                         bitingCount = 0;
                     }
                 }
-        } else if(stopCheck && hook==null && ++stopCount > MIN_STOP_COUNT) {
-            //click tasto destro per ricominciare a pescare
-            KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
-            stopCheck = false;
+            } else if(stopCheck && hook==null && ++stopCount > MIN_STOP_COUNT) {
+                //click tasto destro per ricominciare a pescare
+                KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
+                stopCheck = false;
+                stopCount = 0;
+            }
+        } else {
+            bitingCount = 0;
             stopCount = 0;
+            stopCheck = false;
         }
-
     }
 
 }
