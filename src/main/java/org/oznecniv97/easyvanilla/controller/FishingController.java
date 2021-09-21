@@ -3,8 +3,6 @@ package org.oznecniv97.easyvanilla.controller;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.projectile.FishingHook;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.oznecniv97.easyvanilla.ReflectionUtils;
 
 public class FishingController {
@@ -35,6 +33,9 @@ public class FishingController {
     public void startOrStop() {
         //start/stop
         active = !active;
+        //disable/enable pause on lost focus
+        Minecraft.getInstance().options.pauseOnLostFocus = !active;
+        Minecraft.getInstance().options.save();
         //if active, click key use to start fishing
         if(active) {
             KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
