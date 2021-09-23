@@ -1,7 +1,9 @@
 package org.oznecniv97.easyvanilla;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.oznecniv97.easyvanilla.handler.KeyInputHandler;
@@ -12,6 +14,8 @@ import org.oznecniv97.easyvanilla.keys.KeyBindings;
 public class EasyVanilla {
 
     public EasyVanilla() {
+
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, EasyVanillaConfig.clientSpec);
 
     	FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onFMLInitialization);
 

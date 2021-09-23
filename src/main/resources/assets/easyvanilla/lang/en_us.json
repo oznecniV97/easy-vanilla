@@ -1,5 +1,6 @@
 {
   "key.categories.easyvanilla": "EasyVanilla",
   "key.startFishing": "Start fishing",
-  "key.holdActionButton": "Hold action button"
+  "key.holdActionButton": "Hold action button",
+  "conf.autoFishingMinStopCount": "Tick to wait until restart fishing"
 }

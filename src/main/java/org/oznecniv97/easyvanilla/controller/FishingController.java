@@ -3,11 +3,11 @@ package org.oznecniv97.easyvanilla.controller;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.projectile.FishingHook;
+import org.oznecniv97.easyvanilla.EasyVanillaConfig;
 
 public class FishingController {
 
     private static final int MIN_BITING_COUNT = 4;
-    private static final int MIN_STOP_COUNT = 20;
 
     private static FishingController instance;
 
@@ -60,7 +60,7 @@ public class FishingController {
                     //reset biting count
                     bitingCount = 0;
                 }
-            } else if(stopCheck && hook==null && ++stopCount > MIN_STOP_COUNT) {
+            } else if(stopCheck && hook==null && ++stopCount > EasyVanillaConfig.CLIENT.autoFishingMinStopCount.get()) {
                 //click use key to restart fishing
                 KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
                 stopCheck = false;
