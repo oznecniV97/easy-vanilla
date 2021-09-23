@@ -3,7 +3,6 @@ package org.oznecniv97.easyvanilla.controller;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.projectile.FishingHook;
-import org.oznecniv97.easyvanilla.ReflectionUtils;
 
 public class FishingController {
 
@@ -49,22 +48,20 @@ public class FishingController {
     public void checkPlayerTick(final FishingHook hook) {
         if(active) {
             if (!stopCheck && hook != null) {
-                //procedo al controllo solo se lo stato è bobbing, quindi galleggiante
-                var currentState = ReflectionUtils.getStringField(hook, "currentState");
-                if (currentState.equals("BOBBING")) {
-                    //controllo ricevo biting a true almeno MIN_BITING_COUNT volte
-                    var biting = ReflectionUtils.getBooleanField(hook, "biting");
-                    if(biting && ++bitingCount > MIN_BITING_COUNT) {
-                        //click tasto destro per pescare il pesce
-                        KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
-                        //attivo lo stop per attendere di aver ritirato l'hook
-                        stopCheck = true;
-                        //reset biting count
-                        bitingCount = 0;
-                    }
+                //check if hook is in bobbing state, biting is true and biting count is more than the minimum
+                if (FishingHook.FishHookState.BOBBING.equals(hook.currentState)
+                    && hook.biting
+                    && ++bitingCount > MIN_BITING_COUNT
+                ) {
+                    //click use key to pick up the hook
+                    KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
+                    //enable stop to wait hook picking up
+                    stopCheck = true;
+                    //reset biting count
+                    bitingCount = 0;
                 }
             } else if(stopCheck && hook==null && ++stopCount > MIN_STOP_COUNT) {
-                //click tasto destro per ricominciare a pescare
+                //click use key to restart fishing
                 KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
                 stopCheck = false;
                 stopCount = 0;

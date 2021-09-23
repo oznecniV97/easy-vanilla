@@ -8,8 +8,8 @@ public class PlayerTickHandler {
 
     @SubscribeEvent
     public void onServerPlayerTick(TickEvent.PlayerTickEvent event) {
-        //TODO: controllare se l'item si rompe, così da rimpiazzarlo, se presente
-//		event.player.getInventory().
+        //TODO: check if item broke and if true, replace it, if available
+//        final var selectedItem = event.player.getInventory().getSelected();
 
         //pass player fishing hook to FishingController
         FishingController.getInstance().checkPlayerTick(event.player.fishing);

@@ -21,7 +21,7 @@ public class EasyVanilla {
     }
 
     /**
-     * Metodo per intercettare l'inizializzazione da parte del client, utile per inizializzare i KeyBindings
+	 * Method for intercepting client initialization, useful for KeyBindings init
      */
     private void onFMLInitialization(final FMLClientSetupEvent event){
 		KeyBindings.init();
