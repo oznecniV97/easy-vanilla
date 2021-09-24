@@ -6,6 +6,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.oznecniv97.easyvanilla.controller.FishingController;
 import org.oznecniv97.easyvanilla.keys.KeyBindings;
 
 import java.awt.event.KeyEvent;
@@ -14,38 +15,37 @@ public class KeyInputHandler {
 
     private static final Logger log = LogManager.getLogger();
 
-    private static final int altTab = 342;
-    private static final int winTab = 343;
+    private static final int ALT_TAB = 342;
+    private static final int WIN_TAB = 343;
+
     private boolean holdActionButtonPressed = false;
 
 	@SubscribeEvent
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-		//caso pressione un altro tasto dopo aver attivato holdActionButton
+		//other button click case, after holdActionButton enabled
         if(holdActionButtonPressed
         && event.getKey() != KeyBindings.holdActionButton.getKey().getValue()
-        && event.getKey() != altTab
-    	&& event.getKey() != winTab){
-        	log.debug("Rilasciato holdActionButton, premuto {} ({})", KeyEvent.getKeyText(event.getKey()), event.getKey());
+        && event.getKey() != ALT_TAB
+    	&& event.getKey() != WIN_TAB){
+        	log.debug("Release holdActionButton, pressed {} ({})", KeyEvent.getKeyText(event.getKey()), event.getKey());
 			Minecraft.getInstance().options.pauseOnLostFocus = true;
 			Minecraft.getInstance().options.save();
-            KeyMapping.set(Minecraft.getInstance().options.keyUse.getKey(), true);
-//        	KeyBinding.setKeyBindState(Minecraft.getInstance().gameSettings.keyBindUseItem.getKey(), false);
+            KeyMapping.set(Minecraft.getInstance().options.keyUse.getKey(), false);
         	holdActionButtonPressed = false;
         } else
-    	//caso pressione holdActionButton
+    	//holdActionButton click case
     	if(KeyBindings.holdActionButton.consumeClick()) {
-        	log.debug("Premuto holdActionButton");
+        	log.debug("Pressed holdActionButton");
         	Minecraft.getInstance().options.pauseOnLostFocus = false;
         	Minecraft.getInstance().options.save();
             KeyMapping.set(Minecraft.getInstance().options.keyUse.getKey(), true);
-//        	KeyBinding.setKeyBindState(Minecraft.getInstance().gameSettings.keyBindUseItem.getKey(), true);
         	holdActionButtonPressed = true;
         } else
-        //caso pressione tasto pesca
+		//startFishing click case
     	if(KeyBindings.startFishing.consumeClick()){
-        	log.debug("Premuto pesca");
-        	//TODO start pesca
-//        	Fisherman.getInstance().startOrStop();
+        	log.debug("Pressed startFishing");
+        	//start auto-fishing
+        	FishingController.getInstance().startOrStop();
         }
 	}
 

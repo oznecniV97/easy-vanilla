@@ -1,5 +1,6 @@
 {
   "key.categories.easyvanilla": "EasyVanilla",
   "key.startFishing": "Inizia pesca",
-  "key.holdActionButton": "Mantieni tasto azione"
+  "key.holdActionButton": "Mantieni tasto azione",
+  "conf.autoFishingMinStopCount": "Tick da aspettare prima di ricominciare a pescare"
 }

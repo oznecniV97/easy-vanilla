@@ -7,13 +7,20 @@ import java.awt.event.KeyEvent;
 
 public class KeyBindings {
 
-	public static KeyMapping startFishing;
-	public static KeyMapping holdActionButton;
+	private KeyBindings() {}
+
+	public static final KeyMapping startFishing = new KeyMapping(
+		"key.startFishing",
+		KeyEvent.VK_P,
+		"key.categories.easyvanilla"
+	);
+	public static final KeyMapping holdActionButton = new KeyMapping(
+		"key.holdActionButton",
+		KeyEvent.VK_O,
+		"key.categories.easyvanilla"
+	);
 
 	public static void init() {
-		startFishing		= new KeyMapping("key.startFishing"		, KeyEvent.VK_P, "key.categories.easyvanilla");
-		holdActionButton	= new KeyMapping("key.holdActionButton"	, KeyEvent.VK_O, "key.categories.easyvanilla");
-
 		// Register both KeyBindings to the ClientRegistry
 		ClientRegistry.registerKeyBinding(startFishing);
 		ClientRegistry.registerKeyBinding(holdActionButton);
