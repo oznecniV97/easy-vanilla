@@ -1,13 +1,13 @@
-package org.oznecniv97.easyvanilla.keys;
+package org.oznecniv97.easyvanilla.registers;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.fmlclient.registry.ClientRegistry;
 
 import java.awt.event.KeyEvent;
 
-public class KeyBindings {
+public class KeyBindingRegister {
 
-	private KeyBindings() {}
+	private KeyBindingRegister() {}
 
 	public static final KeyMapping startFishing = new KeyMapping(
 		"key.startFishing",
