@@ -16,6 +16,7 @@ public class EasyVanillaConfig {
 
     public static class Client {
         public final ForgeConfigSpec.IntValue autoFishingMinStopCount;
+        public final ForgeConfigSpec.IntValue autoFishingMaxResetTime;
 
         Client(ForgeConfigSpec.Builder builder) {
             builder.comment("Client only settings, like the rest of the mod :P")
@@ -25,6 +26,11 @@ public class EasyVanillaConfig {
                     .comment("Tick to wait until restart fishing.")
                     .translation("conf.autoFishingMinStopCount")
                     .defineInRange("autoFishingMinStopCount", 20, 20, 1000);
+
+            autoFishingMaxResetTime = builder
+                    .comment("Tick to max wait until restart fishing. This is useful for slow pc.")
+                    .translation("conf.autoFishingMaxResetTime")
+                    .defineInRange("autoFishingMaxResetTime", 1000, 200, 9999);
 
             builder.pop();
         }
