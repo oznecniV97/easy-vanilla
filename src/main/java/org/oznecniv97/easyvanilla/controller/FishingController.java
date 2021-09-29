@@ -63,7 +63,7 @@ public class FishingController {
                     pickUpHook();
                 }
                 //reset part, to stop hooking if it is blocked
-                if(++resetCount > autoFishingMaxResetTime) {
+                if(autoFishingMaxResetTime != 0 && ++resetCount > autoFishingMaxResetTime) {
                     pickUpHook();
                 }
             } else if(stopCheck && hook==null && ++stopCount > autoFishingMinStopCount) {

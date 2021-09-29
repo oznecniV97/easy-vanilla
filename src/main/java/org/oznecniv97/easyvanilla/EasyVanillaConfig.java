@@ -28,9 +28,9 @@ public class EasyVanillaConfig {
                     .defineInRange("autoFishingMinStopCount", 20, 20, 1000);
 
             autoFishingMaxResetTime = builder
-                    .comment("Tick to max wait until restart fishing. This is useful for slow pc.")
+                    .comment("Tick to max wait until restart fishing. This is useful for slow pc. 0 to disable it.")
                     .translation("conf.autoFishingMaxResetTime")
-                    .defineInRange("autoFishingMaxResetTime", 1000, 200, 9999);
+                    .defineInRange("autoFishingMaxResetTime", 1000, 0, 9999);
 
             builder.pop();
         }
