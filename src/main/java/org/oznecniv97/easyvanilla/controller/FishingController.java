@@ -11,13 +11,20 @@ public class FishingController {
 
     private static FishingController instance;
 
+    private final int autoFishingMinStopCount;
+    private final int autoFishingMaxResetTime;
+
     private boolean active = false;
 
     private int bitingCount = 0;
     private int stopCount = 0;
+    private int resetCount = 0;
     private boolean stopCheck = false;
 
-    private FishingController() {}
+    private FishingController() {
+        autoFishingMinStopCount = EasyVanillaConfig.CLIENT.autoFishingMinStopCount.get();
+        autoFishingMaxResetTime = EasyVanillaConfig.CLIENT.autoFishingMaxResetTime.get();
+    }
 
     public static FishingController getInstance() {
         if(instance==null) {
@@ -53,24 +60,35 @@ public class FishingController {
                     && hook.biting
                     && ++bitingCount > MIN_BITING_COUNT
                 ) {
-                    //click use key to pick up the hook
-                    KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
-                    //enable stop to wait hook picking up
-                    stopCheck = true;
-                    //reset biting count
-                    bitingCount = 0;
+                    pickUpHook();
                 }
-            } else if(stopCheck && hook==null && ++stopCount > EasyVanillaConfig.CLIENT.autoFishingMinStopCount.get()) {
+                //reset part, to stop hooking if it is blocked
+                if(autoFishingMaxResetTime != 0 && ++resetCount > autoFishingMaxResetTime) {
+                    pickUpHook();
+                }
+            } else if(stopCheck && hook==null && ++stopCount > autoFishingMinStopCount) {
                 //click use key to restart fishing
                 KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
                 stopCheck = false;
                 stopCount = 0;
+                resetCount = 0;
             }
         } else {
             bitingCount = 0;
             stopCount = 0;
+            resetCount = 0;
             stopCheck = false;
         }
+    }
+
+    private void pickUpHook() {
+        //click use key to pick up the hook
+        KeyMapping.click(Minecraft.getInstance().options.keyUse.getKey());
+        //enable stop to wait hook picking up
+        stopCheck = true;
+        //reset biting count
+        bitingCount = 0;
+        resetCount = 0;
     }
 
 }
