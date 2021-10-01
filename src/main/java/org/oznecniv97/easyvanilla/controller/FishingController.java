@@ -16,6 +16,10 @@ public class FishingController {
 
     private boolean active = false;
 
+    public boolean isActive() {
+        return active;
+    }
+
     private int bitingCount = 0;
     private int stopCount = 0;
     private int resetCount = 0;

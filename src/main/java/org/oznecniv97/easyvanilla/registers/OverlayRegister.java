@@ -6,8 +6,14 @@ import org.oznecniv97.easyvanilla.overlay.AutoFishingOverlay;
 
 public class OverlayRegister {
 
-    public static void init() {
+    private OverlayRegister() {}
 
-        OverlayRegistry.registerOverlayAbove(ForgeIngameGui.CROSSHAIR_ELEMENT, "easyvanilla.auto_fishing_overlay", new AutoFishingOverlay());
+    public static void init() {
+        //overlay for show if auto-fishing is active
+        OverlayRegistry.registerOverlayAbove(
+            ForgeIngameGui.CROSSHAIR_ELEMENT,
+            "easyvanilla.auto_fishing_overlay",
+            new AutoFishingOverlay()
+        );
     }
 }
