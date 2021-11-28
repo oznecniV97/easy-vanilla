@@ -15,3 +15,5 @@ Thanks to the Acquario's team for the inspiration.
 #### TMP_NOTES:
 - https://github.com/Inventory-Tweaks/inventory-tweaks/blob/822d839ebb7289407a0d0f41a6a53c600938bc86/src/main/java/invtweaks/InvTweaks.java#L887
 - https://github.com/reo-ar/InvTweaksRenewed
+- https://github.com/squeek502/AppleSkin/blob/024d524535cb6308fab0ea81dd30baa3ec854b14/java/squeek/appleskin/client/HUDOverlayHandler.java#L49
+- https://github.com/RedLime/DetailArmorBar/blob/decaf57495edb2f323201ad56caec083d973a4cd/src/main/java/com/redlimerl/detailab/render/ArmorBarRenderer.java#L231

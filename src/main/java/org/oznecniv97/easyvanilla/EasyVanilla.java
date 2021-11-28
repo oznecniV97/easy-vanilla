@@ -8,7 +8,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.oznecniv97.easyvanilla.handler.KeyInputHandler;
 import org.oznecniv97.easyvanilla.handler.PlayerTickHandler;
-import org.oznecniv97.easyvanilla.keys.KeyBindings;
+import org.oznecniv97.easyvanilla.registers.KeyBindingRegister;
+import org.oznecniv97.easyvanilla.registers.OverlayRegister;
 
 @Mod("easyvanilla")
 public class EasyVanilla {
@@ -28,7 +29,8 @@ public class EasyVanilla {
 	 * Method for intercepting client initialization, useful for KeyBindings init
      */
     private void onFMLInitialization(final FMLClientSetupEvent event){
-		KeyBindings.init();
+		KeyBindingRegister.init();
+        OverlayRegister.init();
     }
 
 }

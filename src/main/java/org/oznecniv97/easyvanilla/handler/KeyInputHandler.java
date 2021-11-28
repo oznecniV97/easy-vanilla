@@ -7,7 +7,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.oznecniv97.easyvanilla.controller.FishingController;
-import org.oznecniv97.easyvanilla.keys.KeyBindings;
+import org.oznecniv97.easyvanilla.registers.KeyBindingRegister;
 
 import java.awt.event.KeyEvent;
 
@@ -24,7 +24,7 @@ public class KeyInputHandler {
     public void onKeyInput(InputEvent.KeyInputEvent event) {
 		//other button click case, after holdActionButton enabled
         if(holdActionButtonPressed
-        && event.getKey() != KeyBindings.holdActionButton.getKey().getValue()
+        && event.getKey() != KeyBindingRegister.holdActionButton.getKey().getValue()
         && event.getKey() != ALT_TAB
     	&& event.getKey() != WIN_TAB){
         	log.debug("Release holdActionButton, pressed {} ({})", KeyEvent.getKeyText(event.getKey()), event.getKey());
@@ -34,7 +34,7 @@ public class KeyInputHandler {
         	holdActionButtonPressed = false;
         } else
     	//holdActionButton click case
-    	if(KeyBindings.holdActionButton.consumeClick()) {
+    	if(KeyBindingRegister.holdActionButton.consumeClick()) {
         	log.debug("Pressed holdActionButton");
         	Minecraft.getInstance().options.pauseOnLostFocus = false;
         	Minecraft.getInstance().options.save();
@@ -42,7 +42,7 @@ public class KeyInputHandler {
         	holdActionButtonPressed = true;
         } else
 		//startFishing click case
-    	if(KeyBindings.startFishing.consumeClick()){
+    	if(KeyBindingRegister.startFishing.consumeClick()){
         	log.debug("Pressed startFishing");
         	//start auto-fishing
         	FishingController.getInstance().startOrStop();
