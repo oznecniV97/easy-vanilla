@@ -1,7 +1,7 @@
 package org.oznecniv97.easyvanilla.registers;
 
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.fmlclient.registry.ClientRegistry;
+import net.minecraftforge.client.ClientRegistry;
 
 import java.awt.event.KeyEvent;
 
