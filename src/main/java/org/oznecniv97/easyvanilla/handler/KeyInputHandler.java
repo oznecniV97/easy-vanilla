@@ -6,6 +6,7 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.oznecniv97.easyvanilla.controller.AvoidFallingController;
 import org.oznecniv97.easyvanilla.controller.FishingController;
 import org.oznecniv97.easyvanilla.registers.KeyBindingRegister;
 
@@ -42,10 +43,16 @@ public class KeyInputHandler {
         	holdActionButtonPressed = true;
         } else
 		//startFishing click case
-    	if(KeyBindingRegister.startFishing.consumeClick()){
-        	log.debug("Pressed startFishing");
-        	//start auto-fishing
+    	if(KeyBindingRegister.startStopFishing.consumeClick()){
+        	log.debug("Pressed startStopFishing");
+        	//start/stop auto-fishing
         	FishingController.getInstance().startOrStop();
+        } else
+		//startFishing click case
+    	if(KeyBindingRegister.startStopAvoidFalling.consumeClick()){
+        	log.debug("Pressed startStopAvoidFalling");
+        	//start/stop falling block
+        	AvoidFallingController.getInstance().startOrStop();
         }
 	}
 

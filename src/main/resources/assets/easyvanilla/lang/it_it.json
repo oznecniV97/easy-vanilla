@@ -1,6 +1,7 @@
 {
   "key.categories.easyvanilla": "EasyVanilla",
-  "key.startFishing": "Inizia pesca",
+  "key.startStopFishing": "Avvia/ferma pesca",
+  "key.startStopAvoidFalling": "Avvia/ferma blocco cadute",
   "key.holdActionButton": "Mantieni tasto azione",
   "conf.autoFishingMinStopCount": "Tick da aspettare prima di ricominciare a pescare"
 }

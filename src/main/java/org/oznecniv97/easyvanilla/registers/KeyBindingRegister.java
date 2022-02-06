@@ -11,20 +11,26 @@ public class KeyBindingRegister {
 
 	private KeyBindingRegister() {}
 
-	public static final KeyMapping startFishing = new KeyMapping(
-		"key.startFishing",
+	public static final KeyMapping startStopFishing = new KeyMapping(
+		"key.startStopFishing",
 		KeyEvent.VK_P,
+		EASY_VANILLA_CATEGORY
+	);
+	public static final KeyMapping startStopAvoidFalling = new KeyMapping(
+		"key.startStopAvoidFalling",
+		KeyEvent.VK_O,
 		EASY_VANILLA_CATEGORY
 	);
 	public static final KeyMapping holdActionButton = new KeyMapping(
 		"key.holdActionButton",
-		KeyEvent.VK_O,
+		KeyEvent.VK_I,
 		EASY_VANILLA_CATEGORY
 	);
 
 	public static void init() {
 		// Register all KeyBindings to the ClientRegistry
-		ClientRegistry.registerKeyBinding(startFishing);
+		ClientRegistry.registerKeyBinding(startStopFishing);
+		ClientRegistry.registerKeyBinding(startStopAvoidFalling);
 		ClientRegistry.registerKeyBinding(holdActionButton);
 	}
 
