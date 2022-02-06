@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/runConfigurations/
+/sonarlint/
+/workspace.xml
+/modules/
+
+/jarRepositories.xml
+/runConfigurations.xml
