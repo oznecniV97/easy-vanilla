@@ -15,6 +15,7 @@ public class EasyVanillaConfig {
     }
 
     public static class Client {
+        //public configs
         public final ForgeConfigSpec.IntValue autoFishingMinStopCount;
         public final ForgeConfigSpec.IntValue autoFishingMaxResetTime;
 
