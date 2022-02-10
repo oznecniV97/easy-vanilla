@@ -39,6 +39,15 @@ public class AvoidFallingController {
         active = !active;
     }
 
+    //TODO: rimuovere quando finito
+    private void logPlayerInfo(final Player player) {
+        //posizione del player
+        log.warn("position: {}", player.position());
+        //delta di spostamento del player, y sempre infariore a 0, ma maggiore di -0.1 (es: -0.0784000015258789)
+        log.warn("deltaMovement: {}", player.getDeltaMovement());
+
+    }
+
     /**
      * check player position for every player tick
      * @param player the player
@@ -49,15 +58,12 @@ public class AvoidFallingController {
             if(!isPlayerInMovement(player)) {
                 return;
             }
-            //posizione del player
-//            log.warn("position: {}", player.position());
-            //delta di spostamento del player, y sempre infariore a 0, ma maggiore di -0.1 (es: -0.0784000015258789)
-            log.warn("deltaMovement: {}", player.getDeltaMovement());
-            //TODO: individuare direzione spostamento
+            //get movement directions
             var directions = getPlayerDirections(player).toList();
-            log.warn("getPlayerDirections.size: {}", directions.size());
-            log.warn("getPlayerDirections: {}", directions);
-
+            if(directions.isEmpty()) {
+                return;
+            }
+            logPlayerInfo(player);
             //TODO: controllare se c'è un blocco "pericoloso" (lava/troppa aria)
 
             //TODO: bloccare il player
